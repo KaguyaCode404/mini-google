@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini Google 1998 - First-Year AI Lab</title>
+  <style>
+    /* -------------------------------------------------------------
+       1. VINTAGE 1998 STYLING WITH MODERN READABILITY
+       ------------------------------------------------------------- */
+    :root {
+      --google-blue: #4285f4;
+      --google-red: #ea4335;
+      --google-yellow: #fbbc05;
+      --google-green: #34a853;
+      --google-dark-blue: #1a73e8;
+      --bg-color: #f8f9fa;
+      --card-bg: #ffffff;
+      --border-color: #dadce0;
+      --text-main: #202124;
+      --text-muted: #5f6368;
+      --link-color: #1a0dab;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+
+    /* Top Lab Banner */
+    .lab-banner {
+      background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+      color: #ffffff;
+      padding: 8px 16px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      border-bottom: 2px solid #1d4ed8;
+    }
+    .lab-banner span {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-right: 6px;
+      font-weight: bold;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    /* Header & Logo */
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo-container {
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 1px;
+      margin-bottom: 6px;
+      user-select: none;
+    }
+
+    .mini-prefix {
+      font-family: "Georgia", "Times New Roman", serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: #5f6368;
+      margin-right: 8px;
+      font-style: italic;
+    }
+
+    .logo-letter {
+      font-family: "Catull", "Georgia", "Times New Roman", serif;
+      font-size: 58px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      display: inline-block;
+      text-shadow: 1px 2px 3px rgba(0,0,0,0.12);
+    }
+
+    .c-blue   { color: #4285f4; }
+    .c-red    { color: #ea4335; }
+    .c-yellow { color: #fbbc05; }
+    .c-green  { color: #34a853; }
+
+    .logo-badge {
+      background-color: #ea4335;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: monospace;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-left: 10px;
+      transform: rotate(5deg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      letter-spacing: 0.5px;
+    }
+
+    .tagline {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Search Box & Controls */
+    .search-section {
+      max-width: 680px;
+      margin: 0 auto 24px auto;
+      text-align: center;
+    }
+
+    .search-bar-wrap {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 28px;
+      padding: 6px 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      transition: all 0.2s ease;
+    }
+    .search-bar-wrap:focus-within {
+      border-color: var(--google-blue);
+      box-shadow: 0 3px 12px rgba(66, 133, 244, 0.25);
+    }
+
+    .search-icon {
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+
+    #searchInput {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      padding: 8px 4px;
+      background: transparent;
+      color: var(--text-main);
+    }
+
+    .btn {
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 18px;
+      border-radius: 20px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      user-select: none;
+    }
+
+    .btn-search {
+      background-color: var(--google-blue);
+      color: white;
+      border-color: var(--google-blue);
+    }
+    .btn-search:hover {
+      background-color: #3367d6;
+      box-shadow: 0 2px 6px rgba(51, 103, 214, 0.35);
+    }
+
+    .btn-rerun {
+      background-color: #ffffff;
+      color: #374151;
+      border-color: #d1d5db;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-rerun:hover {
+      background-color: #f3f4f6;
+      border-color: #9ca3af;
+    }
+
+    /* Example Query Buttons */
+    .examples-wrap {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .examples-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .example-btn {
+      background-color: #e8f0fe;
+      color: var(--google-dark-blue);
+      border: 1px solid #c2e7ff;
+      border-radius: 16px;
+      padding: 5px 14px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .example-btn:hover {
+      background-color: #d3e3fd;
+      border-color: #a8c7fa;
+      transform: translateY(-1px);
+    }
+
+    /* Surfer notification / Status banner */
+    .status-toast {
+      max-width: 680px;
+      margin: 0 auto 20px auto;
+      background: #e6f4ea;
+      border: 1px solid #b7e1cd;
+      color: #137333;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeIn 0.3s ease;
+    }
+
+    /* Columns Layout */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 820px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Column Headers */
+    .column-panel {
+      background-color: transparent;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .column-header {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px 12px 0 0;
+      padding: 16px 20px;
+      border-bottom: 2px solid transparent;
+    }
+
+    .col-old .column-header {
+      border-bottom-color: #e57373;
+    }
+
+    .col-surfer .column-header {
+      border-bottom-color: #81c995;
+    }
+
+    .column-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+
+    .column-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-year {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-1997 {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    .badge-1998 {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .column-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+    }
+
+    /* Results List */
+    .results-list {
+      background: #f1f3f4;
+      border: 1px solid var(--border-color);
+      border-top: none;
+      border-radius: 0 0 12px 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 260px;
+    }
+
+    /* Result Card */
+    .result-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      position: relative;
+    }
+    .result-card:hover {
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transform: translateY(-1px);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .rank-pill {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: #e8eaed;
+      color: #3c4043;
+    }
+    .rank-1 {
+      background: #fef08a;
+      color: #854d0e;
+      border: 1px solid #fde047;
+    }
+
+    .result-url {
+      color: var(--link-color);
+      font-size: 13.5px;
+      text-decoration: underline;
+      word-break: break-all;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .result-snippet {
+      font-size: 13.5px;
+      color: #3c4043;
+      margin: 8px 0 12px 0;
+      line-height: 1.45;
+    }
+
+    mark.highlight {
+      background-color: #fef08a;
+      color: #000000;
+      padding: 1px 3px;
+      border-radius: 3px;
+      font-weight: bold;
+      border: 1px solid #facc15;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #e8eaed;
+      font-size: 12px;
+    }
+
+    .score-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .score-old {
+      background-color: #fee2e2;
+      color: #b91c1c;
+    }
+    .score-surfer {
+      background-color: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .links-in-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background-color: #f3f4f6;
+      color: #4b5563;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    /* Friendly Funny Empty State */
+    .empty-state {
+      grid-column: 1 / -1;
+      background-color: var(--card-bg);
+      border: 2px dashed #d1d5db;
+      border-radius: 14px;
+      padding: 44px 24px;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .empty-state-text {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin: 0 auto 18px auto;
+      line-height: 1.6;
+    }
+
+    /* Educational Section (Collapsible) */
+    .edu-section {
+      margin-top: 40px;
+      background-color: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .edu-header {
+      padding: 14px 20px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .edu-header:hover {
+      background: #f1f5f9;
+    }
+    .edu-header h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .edu-content {
+      padding: 20px;
+      font-size: 13.5px;
+      color: #334155;
+    }
+
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    @media (max-width: 768px) {
+      .edu-grid { grid-template-columns: 1fr; }
+    }
+
+    .edu-box {
+      background: #f8fafc;
+      padding: 14px;
+      border-radius: 8px;
+      border-left: 4px solid var(--google-blue);
+    }
+    .edu-box h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #0f172a;
+    }
+
+    /* Dataset Table */
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      text-align: left;
+    }
+    table.data-table th, table.data-table td {
+      padding: 8px 12px;
+      border: 1px solid #e2e8f0;
+    }
+    table.data-table th {
+      background-color: #f1f5f9;
+      color: #475569;
+      font-weight: 600;
+    }
+    table.data-table tr:hover {
+      background-color: #f8fafc;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Lab Banner -->
+  <div class="lab-banner">
+    <span>AI LAB EXPERIMENT</span>
+    Comparing 1997 Keyword Frequency Ranking vs. 1998 Random Surfer (PageRank)
+  </div>
+
+  <div class="container">
+    <!-- Header with Colourful 1998 Logo -->
+    <header>
+      <div class="logo-container">
+        <span class="mini-prefix">Mini</span>
+        <span class="logo-letter c-blue">G</span>
+        <span class="logo-letter c-red">o</span>
+        <span class="logo-letter c-yellow">o</span>
+        <span class="logo-letter c-blue">g</span>
+        <span class="logo-letter c-green">l</span>
+        <span class="logo-letter c-red">e</span>
+        <span class="logo-badge">1998!</span>
+      </div>
+      <p class="tagline">Stanford AI Lab — A tiny search engine comparing keyword counting with a random surfer</p>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section">
+      <div class="search-bar-wrap">
+        <span class="search-icon">🔍</span>
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Search for pizza, cricket, movie, or exam..." 
+          autofocus 
+          autocomplete="off"
+        />
+        <button class="btn btn-search" id="searchBtn">Search</button>
+        <button class="btn btn-rerun" id="rerunBtn" title="Run 100,000 random surfer moves again">
+          🎲 Run surfer again
+        </button>
+      </div>
+
+      <!-- 4 Example Buttons -->
+      <div class="examples-wrap">
+        <span class="examples-label">Try example searches:</span>
+        <button class="example-btn" data-query="pizza">🍕 pizza</button>
+        <button class="example-btn" data-query="cricket">🏏 cricket</button>
+        <button class="example-btn" data-query="movie">🎬 movie</button>
+        <button class="example-btn" data-query="exam">📝 exam</button>
+      </div>
+    </section>
+
+    <!-- Toast / Notification Area -->
+    <div id="statusToast" class="status-toast" style="display: none;">
+      <span id="toastMessage"></span>
+      <span style="cursor: pointer; opacity: 0.7;" onclick="this.parentElement.style.display='none'">✕</span>
+    </div>
+
+    <!-- Results Section: Two Columns Side-by-Side -->
+    <div id="resultsContainer" class="comparison-grid">
+      <!-- Old Way (1997) Column -->
+      <div class="column-panel col-old">
+        <div class="column-header">
+          <div class="column-title-row">
+            <h2 class="column-title">Old way <span class="badge-year badge-1997">1997</span></h2>
+            <span id="oldCount" style="font-size: 13px; color: var(--text-muted); font-weight: 600;"></span>
+          </div>
+          <p class="column-desc">Count how many times the search word appears as a whole word. Highest count first.</p>
+        </div>
+        <div id="oldResultsList" class="results-list">
+          <!-- Result cards injected by JS -->
+        </div>
+      </div>
+
+      <!-- Surfer Way (1998) Column -->
+      <div class="column-panel col-surfer">
+        <div class="column-header">
+          <div class="column-title-row">
+            <h2 class="column-title">Surfer way <span class="badge-year badge-1998">1998</span></h2>
+            <span id="surferCount" style="font-size: 13px; color: var(--text-muted); font-weight: 600;"></span>
+          </div>
+          <p class="column-desc">Random surfer takes 100,000 moves (15% random jumps, 85% link clicks). Highest visits first.</p>
+        </div>
+        <div id="surferResultsList" class="results-list">
+          <!-- Result cards injected by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State Message (Shown when no matches exist) -->
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <div class="empty-state-icon">🔌📡</div>
+      <h3 class="empty-state-title" id="emptyTitle">No web pages found!</h3>
+      <p class="empty-state-text" id="emptyText">
+        *Krrsshh-screeech-beep-beep* (Dial-up modem noise)...<br>
+        Your 56k modem searched the entire 1998 cyberspace, but couldn't find any page mentioning that word.
+        Try clicking one of the buttons above: <strong>pizza</strong>, <strong>cricket</strong>, <strong>movie</strong>, or <strong>exam</strong>!
+      </p>
+      <button class="btn btn-search" onclick="triggerSearch('pizza')">Search "pizza" instead</button>
+    </div>
+
+    <!-- Educational Guide & Dataset Inspector for Lab Students -->
+    <div class="edu-section">
+      <div class="edu-header" onclick="toggleDatasetViewer()">
+        <h3>📚 Lab Guide & Cyberspace Dataset Inspector (Click to expand)</h3>
+        <span id="datasetToggleIcon">▼</span>
+      </div>
+      <div id="eduContent" class="edu-content" style="display: none;">
+        <div class="edu-grid">
+          <div class="edu-box">
+            <h4>💡 Why the "Old way (1997)" Failed</h4>
+            <p>Early search engines (like AltaVista and Lycos) ranked pages purely by keyword repetition. Spammers quickly exploited this by repeating keywords dozens of times (often in invisible white text), easily gaming the algorithm and stealing rank #1 from quality websites.</p>
+          </div>
+          <div class="edu-box">
+            <h4>🚀 Why the "Surfer way (1998)" Revolutionized Search</h4>
+            <p>Larry Page and Sergey Brin modeled the web as a directed graph. A random surfer traverses links: authority pages receive lots of incoming links from other pages, accumulating visits. Spam pages with zero incoming links get demoted to the bottom regardless of keyword stuffing!</p>
+          </div>
+        </div>
+
+        <h4 style="margin-top: 16px; margin-bottom: 6px;">🌐 1998 Cyberspace Corpus (16 Web Pages):</h4>
+        <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 8px;">
+          This table shows each page in our embedded corpus, which pages it links to, how many pages link into it, and its current surfer visit score.
+        </p>
+        <div class="table-wrap">
+          <table class="data-table" id="datasetTable">
+            <thead>
+              <tr>
+                <th>Page ID</th>
+                <th>URL</th>
+                <th>Links To</th>
+                <th>Links In (In-degree)</th>
+                <th>Surfer Visits (out of 100k)</th>
+                <th>Surfer Score</th>
+                <th>Page Text Preview</th>
+              </tr>
+            </thead>
+            <tbody id="datasetTableBody">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- -------------------------------------------------------------
+       JAVASCRIPT: ALL LOGIC SELF-CONTAINED
+       ------------------------------------------------------------- -->
+  <script>
+    /* =============================================================
+       1. THE DATA
+       Each row is one web page: page, url, text, links_to.
+       links_to lists the page numbers this page links to, separated by ";".
+       ============================================================= */
+    const webPages = [
+      {
+        page: 1,
+        url: "http://www.stanford-daily.edu/best-pizza",
+        text: "The Stanford student guide to the best pizza in town. Luigi authentic wood fired pizza is our top rated pizza recommendation.",
+        links_to: "2;5;9"
+      },
+      {
+        page: 2,
+        url: "http://www.luigis-authentic-pizza.com",
+        text: "Luigi Traditional Neapolitan Pizzeria. Fresh mozzarella, basil, and stone baked pizza made with passion since 1985.",
+        links_to: "1;5"
+      },
+      {
+        page: 3,
+        url: "http://www.free-pizza-coupons-discount-deals.com",
+        text: "Cheap pizza pizza pizza pizza buy pizza now pizza best discount pizza slice delivery pizza pizza pizza offer!",
+        links_to: "1"
+      },
+      {
+        page: 4,
+        url: "http://www.international-cricket-council.org",
+        text: "Official International Cricket Board. Rules of test cricket, world cup schedules, and historic cricket rankings.",
+        links_to: "6;7;10"
+      },
+      {
+        page: 5,
+        url: "http://www.campus-food-reviews.org",
+        text: "Campus dining reviews. We visited Luigi pizza kitchen yesterday and tested their famous margherita pizza.",
+        links_to: "1;2"
+      },
+      {
+        page: 6,
+        url: "http://www.lords-cricket-ground-fans.org",
+        text: "Passionate cricket supporters club. Follow every cricket match at Lords ground and check official cricket updates.",
+        links_to: "4;7"
+      },
+      {
+        page: 7,
+        url: "http://www.varsity-sports-portal.edu",
+        text: "University sports portal covering varsity cricket fixtures and weekend athletics.",
+        links_to: "4;1"
+      },
+      {
+        page: 8,
+        url: "http://www.win-cricket-bets-fast1998.com",
+        text: "Free cricket bets cricket tips cricket odds cricket scores cricket match cricket win cricket jackpot!",
+        links_to: "4"
+      },
+      {
+        page: 9,
+        url: "http://www.metro-city-directory.org",
+        text: "The complete city directory with links to top dining, university exam dates, and classic movie theatres.",
+        links_to: "1;2;11;13"
+      },
+      {
+        page: 10,
+        url: "http://www.world-sports-gazette.com",
+        text: "Daily sports headlines covering international cricket tournaments and world championship news.",
+        links_to: "4;6"
+      },
+      {
+        page: 11,
+        url: "http://www.classic-cinema-archive.org",
+        text: "Preserving cinema history. Read classic movie reviews, director biographies, and timeless movie retrospectives.",
+        links_to: "9;12"
+      },
+      {
+        page: 12,
+        url: "http://www.campus-film-society.edu",
+        text: "Weekly campus movie night screening foreign and independent cinema. Check our movie schedule and discussions.",
+        links_to: "11;13"
+      },
+      {
+        page: 13,
+        url: "http://www.stanford-academics.edu/exams",
+        text: "Official Stanford examination registry. Final exam timetable, exam rules, honor code guidelines, and exam halls.",
+        links_to: "1;9;14"
+      },
+      {
+        page: 14,
+        url: "http://www.student-study-skills-guide.org",
+        text: "Tips for preparing for your midterm exam and finals. Review previous exam papers and organize your exam revision timetable.",
+        links_to: "13;1"
+      },
+      {
+        page: 15,
+        url: "http://www.cheat-secrets-pass-any-exam.com",
+        text: "Pass any exam guaranteed! Secret exam answers exam notes exam tricks exam leaks pass exam fast exam!",
+        links_to: "13"
+      },
+      {
+        page: 16,
+        url: "http://www.free-movie-downloads-rip.com",
+        text: "Watch movie online free movie stream movie dvd movie trailer movie preview movie movie theater clips!",
+        links_to: "11"
+      }
+    ];
+
+    // Quick lookup map to find page by its page number
+    const pageMap = {};
+    for (const p of webPages) {
+      pageMap[p.page] = p;
+    }
+
+    /* =============================================================
+       2. HELPER: Parse links & Precompute "Links in" for each page
+       ============================================================= */
+    function parseLinks(linksStr) {
+      if (!linksStr || typeof linksStr !== "string") return [];
+      return linksStr
+        .split(";")
+        .map(x => parseInt(x.trim(), 10))
+        .filter(x => !isNaN(x) && pageMap[x]);
+    }
+
+    function computeLinksIn() {
+      // Reset linksIn for all pages
+      for (const p of webPages) {
+        p.linksIn = 0;
+      }
+      // Count how many times each page is linked to by another page
+      for (const p of webPages) {
+        const outLinks = parseLinks(p.links_to);
+        for (const targetId of outLinks) {
+          if (pageMap[targetId]) {
+            pageMap[targetId].linksIn++;
+          }
+        }
+      }
+    }
+
+    /* =============================================================
+       3. RANKING 2: "Surfer way (1998)"
+       Work out a surfer score with a random surfer:
+       1. Start on a random page.
+       2. Make 100,000 moves. On each move:
+          - 15% of the time the surfer gets bored and jumps to any page, picked at random.
+          - Otherwise the surfer clicks one of the current page's links, picked at random.
+       3. Count how many times each page is visited.
+       4. Surfer score = visits divided by 100,000, shown as a percentage with 1 decimal place.
+       ============================================================= */
+    function runSurferSimulation() {
+      const TOTAL_MOVES = 100000;
+      const N = webPages.length;
+
+      // Initialize visit count map
+      const visits = {};
+      for (const p of webPages) {
+        visits[p.page] = 0;
+      }
+
+      // 1. Start on a random page
+      let currentPage = webPages[Math.floor(Math.random() * N)];
+
+      // 2. Make 100,000 moves
+      for (let move = 0; move < TOTAL_MOVES; move++) {
+        const isBored = Math.random() < 0.15; // 15% boredom probability
+        const outLinks = parseLinks(currentPage.links_to);
+
+        if (isBored || outLinks.length === 0) {
+          // Surfer gets bored (or page has no outgoing links) -> jump to any page at random
+          currentPage = webPages[Math.floor(Math.random() * N)];
+        } else {
+          // Otherwise, click one of the current page's links at random
+          const targetId = outLinks[Math.floor(Math.random() * outLinks.length)];
+          currentPage = pageMap[targetId] || webPages[Math.floor(Math.random() * N)];
+        }
+
+        // 3. Count visit for the current page
+        visits[currentPage.page]++;
+      }
+
+      // 4. Surfer score = visits divided by 100,000, shown as percentage with 1 decimal place
+      for (const p of webPages) {
+        p.visits = visits[p.page];
+        p.surferScoreNum = (visits[p.page] / TOTAL_MOVES) * 100;
+        p.surferScore = p.surferScoreNum.toFixed(1) + "%";
+      }
+    }
+
+    /* =============================================================
+       4. RANKING 1: "Old way (1997)"
+       Count how many times the search word appears in the page's text as a whole word.
+       Ignore capital letters.
+       ============================================================= */
+    function countWholeWord(text, searchWord) {
+      if (!searchWord || !searchWord.trim()) return 0;
+      // Escape any special regex characters
+      const cleanWord = searchWord.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      // Match whole word with \b word boundaries and ignore case (gi)
+      const regex = new RegExp("\\b" + cleanWord + "\\b", "gi");
+      const matches = text.match(regex);
+      return matches ? matches.length : 0;
+    }
+
+    /* Helper: Escape HTML to prevent injection and safely highlight words */
+    function escapeHtml(str) {
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function highlightSearchWord(text, searchWord) {
+      const escapedText = escapeHtml(text);
+      if (!searchWord || !searchWord.trim()) return escapedText;
+      const cleanWord = searchWord.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const regex = new RegExp("\\b(" + cleanWord + ")\\b", "gi");
+      return escapedText.replace(regex, '<mark class="highlight">$1</mark>');
+    }
+
+    /* =============================================================
+       5. SEARCH & RENDER
+       Show only the pages whose text contains the search word,
+       in two columns side by side: "Old way" on left, "Surfer way" on right.
+       ============================================================= */
+    let currentQuery = "pizza"; // Default query on page load
+
+    function performSearch(query) {
+      currentQuery = query.trim();
+      const resultsContainer = document.getElementById("resultsContainer");
+      const emptyState = document.getElementById("emptyState");
+
+      if (!currentQuery) {
+        resultsContainer.style.display = "none";
+        emptyState.style.display = "block";
+        document.getElementById("emptyTitle").textContent = "Please enter a search word";
+        document.getElementById("emptyText").innerHTML = "Try searching for <strong>pizza</strong>, <strong>cricket</strong>, <strong>movie</strong>, or <strong>exam</strong>!";
+        return;
+      }
+
+      // Filter: Show only pages whose text contains the search word as a whole word
+      const matchingPages = [];
+      for (const p of webPages) {
+        const count = countWholeWord(p.text, currentQuery);
+        if (count > 0) {
+          matchingPages.push({
+            ...p,
+            wordCount: count
+          });
+        }
+      }
+
+      // If nothing matches, show friendly funny message
+      if (matchingPages.length === 0) {
+        resultsContainer.style.display = "none";
+        emptyState.style.display = "block";
+        document.getElementById("emptyTitle").textContent = 'No 1998 web pages found for "' + escapeHtml(currentQuery) + '"';
+        document.getElementById("emptyText").innerHTML = `
+          *Beeeeep-boooop-chhhhh* (Dial-up handshake failed)!<br>
+          We searched all 16 web pages in our 1998 server closet, but none contain the word 
+          "<strong>${escapeHtml(currentQuery)}</strong>".<br>
+          Remember, Google is brand new in 1998! Try one of the four example topics:
+          <strong>pizza</strong>, <strong>cricket</strong>, <strong>movie</strong>, or <strong>exam</strong>.
+        `;
+        return;
+      }
+
+      // We have matching results!
+      emptyState.style.display = "none";
+      resultsContainer.style.display = "grid";
+
+      // -----------------------------------------------------------
+      // RANKING 1: Old way (1997) - Highest count first
+      // -----------------------------------------------------------
+      const oldWayList = [...matchingPages].sort((a, b) => {
+        if (b.wordCount !== a.wordCount) {
+          return b.wordCount - a.wordCount;
+        }
+        return a.page - b.page; // Stable tie breaker
+      });
+
+      // -----------------------------------------------------------
+      // RANKING 2: Surfer way (1998) - Highest surfer score first
+      // -----------------------------------------------------------
+      const surferWayList = [...matchingPages].sort((a, b) => {
+        if (b.surferScoreNum !== a.surferScoreNum) {
+          return b.surferScoreNum - a.surferScoreNum;
+        }
+        return a.page - b.page; // Stable tie breaker
+      });
+
+      // Render Left Column (Old way)
+      document.getElementById("oldCount").textContent = `${oldWayList.length} pages found`;
+      const oldContainer = document.getElementById("oldResultsList");
+      oldContainer.innerHTML = "";
+      oldWayList.forEach((page, index) => {
+        const rank = index + 1;
+        const rankClass = rank === 1 ? "rank-pill rank-1" : "rank-pill";
+        const card = document.createElement("div");
+        card.className = "result-card";
+        card.innerHTML = `
+          <div class="card-top">
+            <span class="${rankClass}">Rank #${rank}</span>
+            <span style="font-size: 11px; color: var(--text-muted);">Page ID: ${page.page}</span>
+          </div>
+          <a class="result-url" href="${page.url}" target="_blank" onclick="event.preventDefault();">${escapeHtml(page.url)}</a>
+          <p class="result-snippet">${highlightSearchWord(page.text, currentQuery)}</p>
+          <div class="card-footer">
+            <span class="score-badge score-old">
+              🔤 Word count: ${page.wordCount} ${page.wordCount === 1 ? 'occurrence' : 'occurrences'}
+            </span>
+          </div>
+        `;
+        oldContainer.appendChild(card);
+      });
+
+      // Render Right Column (Surfer way)
+      document.getElementById("surferCount").textContent = `${surferWayList.length} pages found`;
+      const surferContainer = document.getElementById("surferResultsList");
+      surferContainer.innerHTML = "";
+      surferWayList.forEach((page, index) => {
+        const rank = index + 1;
+        const rankClass = rank === 1 ? "rank-pill rank-1" : "rank-pill";
+        const card = document.createElement("div");
+        card.className = "result-card";
+        card.innerHTML = `
+          <div class="card-top">
+            <span class="${rankClass}">Rank #${rank}</span>
+            <span style="font-size: 11px; color: var(--text-muted);">Page ID: ${page.page}</span>
+          </div>
+          <a class="result-url" href="${page.url}" target="_blank" onclick="event.preventDefault();">${escapeHtml(page.url)}</a>
+          <p class="result-snippet">${highlightSearchWord(page.text, currentQuery)}</p>
+          <div class="card-footer">
+            <span class="score-badge score-surfer">
+              🏄‍♂️ Surfer score: ${page.surferScore}
+            </span>
+            <span class="links-in-badge">
+              🔗 Links in: ${page.linksIn}
+            </span>
+          </div>
+        `;
+        surferContainer.appendChild(card);
+      });
+    }
+
+    /* Helper to trigger search from example buttons */
+    function triggerSearch(word) {
+      document.getElementById("searchInput").value = word;
+      performSearch(word);
+    }
+
+    /* Show a brief toast message */
+    function showToast(message) {
+      const toast = document.getElementById("statusToast");
+      const msgElem = document.getElementById("toastMessage");
+      msgElem.innerHTML = message;
+      toast.style.display = "flex";
+      setTimeout(() => {
+        toast.style.display = "none";
+      }, 5000);
+    }
+
+    /* Update the Dataset Table in the Educational Section */
+    function updateDatasetTable() {
+      const tbody = document.getElementById("datasetTableBody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      for (const p of webPages) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td style="font-weight: bold; text-align: center;">${p.page}</td>
+          <td><code style="color: var(--link-color);">${escapeHtml(p.url)}</code></td>
+          <td>${p.links_to ? p.links_to : "<em>none</em>"}</td>
+          <td style="font-weight: bold; text-align: center;">${p.linksIn}</td>
+          <td style="text-align: right;">${p.visits ? p.visits.toLocaleString() : 0}</td>
+          <td style="font-weight: bold; color: #0284c7; text-align: right;">${p.surferScore || "0.0%"}</td>
+          <td style="color: #64748b; font-size: 11.5px;">${escapeHtml(p.text.substring(0, 75))}...</td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    function toggleDatasetViewer() {
+      const content = document.getElementById("eduContent");
+      const icon = document.getElementById("datasetToggleIcon");
+      if (content.style.display === "none") {
+        content.style.display = "block";
+        icon.textContent = "▲";
+        updateDatasetTable();
+      } else {
+        content.style.display = "none";
+        icon.textContent = "▼";
+      }
+    }
+
+    /* =============================================================
+       6. INITIALIZATION & EVENT LISTENERS
+       ============================================================= */
+    // Step 1: Pre-calculate links in
+    computeLinksIn();
+
+    // Step 2: Run surfer simulation (100,000 moves) once on page load
+    runSurferSimulation();
+
+    // Step 3: Populate initial search with "pizza"
+    document.getElementById("searchInput").value = "pizza";
+    performSearch("pizza");
+    updateDatasetTable();
+
+    // Search button click
+    document.getElementById("searchBtn").addEventListener("click", () => {
+      const query = document.getElementById("searchInput").value;
+      performSearch(query);
+    });
+
+    // Enter key triggers search
+    document.getElementById("searchInput").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        performSearch(e.target.value);
+      }
+    });
+
+    // Example search buttons
+    document.querySelectorAll(".example-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const query = btn.getAttribute("data-query");
+        triggerSearch(query);
+      });
+    });
+
+    // "Run the surfer again" button: Redoes 100,000 moves & refreshes results
+    document.getElementById("rerunBtn").addEventListener("click", () => {
+      const t0 = performance.now();
+      runSurferSimulation();
+      const elapsed = Math.round(performance.now() - t0);
+
+      // Refresh current search results
+      const currentInput = document.getElementById("searchInput").value;
+      performSearch(currentInput);
+
+      // Refresh dataset table if open
+      updateDatasetTable();
+
+      showToast(`🎲 <strong>Random Surfer simulated 100,000 moves in ${elapsed}ms!</strong> Surfer scores and rankings refreshed.`);
+    });
+  </script>
+</body>
+</html>
+
